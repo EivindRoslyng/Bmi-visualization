@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <title>My Chart.js Chart</title>
+</head>
+<body>
+  <div class="container">
+    <canvas id="myChart"></canvas>
+  </div>
+  <div class="container">
+    <canvas id="mysecondChart"></canvas>
+  </div>
+
+  <div class="form">
+    <form>
+      <label for="bmi">Target bmi:</label><br>
+      <select name="bmi" id="bmi">
+        <option value="all">All</option>
+        <option value="Less than 18">Less than 18</option>
+        <option value="18-25">18-25</option>
+        <option value="25-30">25-30</option>
+        <option value="More than 30">More than 30</option>
+      </select><br>
+      <label for="gender">Gender</label> <br>
+      <select name="gender" id="gender">
+        <option value="both">Both</option>
+        <option value="Less than 18">Female</option>
+        <option value="Male">Male</option>
+
+      </select><br>
+      <label for="country">Country</label> <br>
+      <select name="country" id="country">
+        <option value="both">All countries</option>
+        <option>France</option>
+        <option>Belgium</option>
+        <option>Latvia</option>
+        <option>Romania</option>
+        <option>Turkey</option>
+        <option>Austria</option>
+        <option>Ireland</option>
+        <option>Poland</option>
+        <option>Cyprus</option>
+        <option>Bulgaria</option>
+        <option>Luxembourg</option>
+        <option>Germany</option>
+        <option>Malta</option>
+        <option>Spain</option>
+        <option>Slovenia</option>
+        <option>Estonia</option>
+        <option>Czechia</option>
+        <option>Slovakia</option>
+      </select><br>
+      <label for="GDP per capita"> Sort by GDP per Capita </label> <br>
+      <select name="GDP per capita" id="GDP per capita">
+        <option value="both">No</option>
+        <option value="Yes">Yes</option>
+      </select><br>
+      <label for="Year"> Year </label> <br>
+      <select name="Year" id="Year">
+        <option value="All">All</option>
+        <option> 18-44 </option>
+        <option> 45-54 </option>
+        <option> 55-64 </option>
+        <option> 65-74 </option>
+        <option> older than 75 </option>
+
+      </select><br>
+      <label for="QU"> Income quantile </label> <br>
+      <select name="QU" id="QU">
+        <option value="All">All</option>
+        <option> Q1 </option>
+        <option> Q2 </option>
+        <option> Q3 </option>
+        <option> Q4 </option>
+        <option> Q5 </option>
+
+      </select><br>
+      <input type="submit" onclick=create_graph(event) value="Create Graph">
+    </form>
+  </div>
+</body>
+
+<script src="index.js"></script>
+
+</html>
