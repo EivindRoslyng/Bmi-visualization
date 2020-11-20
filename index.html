@@ -17,70 +17,70 @@
   </div>
 
   <div class="form">
-    <form>
+    <form  id="bmiform">
       <label for="bmi">Target bmi:</label><br>
       <select name="bmi" id="bmi">
-        <option value="all">All</option>
-        <option value="Less than 18">Less than 18</option>
-        <option value="18-25">18-25</option>
+        <option value="LT18P5">Less than 18</option>
+        <option value="18P5-25">18-25</option>
         <option value="25-30">25-30</option>
-        <option value="More than 30">More than 30</option>
+        <option value="GE30">More than 30</option>
       </select><br>
       <label for="gender">Gender</label> <br>
       <select name="gender" id="gender">
-        <option value="both">Both</option>
-        <option value="Less than 18">Female</option>
-        <option value="Male">Male</option>
+        <option value="T">Both</option>
+        <option value="F">Female</option>
+        <option value="M">Male</option>
 
       </select><br>
       <label for="country">Country</label> <br>
       <select name="country" id="country">
-        <option value="both">All countries</option>
-        <option>France</option>
-        <option>Belgium</option>
-        <option>Latvia</option>
-        <option>Romania</option>
-        <option>Turkey</option>
-        <option>Austria</option>
-        <option>Ireland</option>
-        <option>Poland</option>
-        <option>Cyprus</option>
-        <option>Bulgaria</option>
-        <option>Luxembourg</option>
-        <option>Germany</option>
-        <option>Malta</option>
-        <option>Spain</option>
-        <option>Slovenia</option>
-        <option>Estonia</option>
-        <option>Czechia</option>
-        <option>Slovakia</option>
+        <option value="TOTAL">All countries</option>
+        <option value="Austria">Austria</option>
+        <option value ="Belgium">Belgium</option>
+        <option value="Bulgaria">Bulgaria</option>
+        <option value="Cyprus">Cyprus</option>
+        <option value="Czechia">Czechia</option>
+        <option value="Estonia">Estonia</option>
+        <option value="France">France</option>
+        <option value="Germany">Germany</option>
+        <option value="Ireland">Ireland</option>
+        <option value="Latvia">Latvia</option>
+        <option value="Luxembourg">Luxembourg</option>
+        <option value="Malta">Malta</option>
+        <option value="Poland">Poland</option>
+        <option value="Romania">Romania</option>
+        <option value="Spain">Spain</option>
+        <option value="Slovakia">Slovakia</option>
+        <option value="Slovenia">Slovenia</option>
+        <option value="Spain">Spain</option>
+        <option value="Turkey">Turkey</option>
       </select><br>
-      <label for="GDP per capita"> Sort by GDP per Capita </label> <br>
-      <select name="GDP per capita" id="GDP per capita">
-        <option value="both">No</option>
+      <label for="Average Salary"> Average Salary </label> <br>
+      <select id="Average Salary">
+        <option value="no">No</option>
         <option value="Yes">Yes</option>
       </select><br>
       <label for="Year"> Year </label> <br>
       <select name="Year" id="Year">
-        <option value="All">All</option>
-        <option> 18-44 </option>
-        <option> 45-54 </option>
-        <option> 55-64 </option>
-        <option> 65-74 </option>
-        <option> older than 75 </option>
+        <option value="TOTAL">All</option>
+        <option value="Y18-44"> 18-44 </option>
+        <option value="Y45-54"> 45-54 </option>
+        <option value="Y55-64"> 55-64 </option>
+        <option value="Y65-74"> 65-74 </option>
+        <option value="Y_GE75"> older than 75 </option>
 
       </select><br>
       <label for="QU"> Income quantile </label> <br>
       <select name="QU" id="QU">
-        <option value="All">All</option>
-        <option> Q1 </option>
-        <option> Q2 </option>
-        <option> Q3 </option>
-        <option> Q4 </option>
-        <option> Q5 </option>
+        <option value="TOTAL">All</option>
+        <option value="QU1"> Q1 </option>
+        <option value="QU2"> Q2 </option>
+        <option value="QU3"> Q3 </option>
+        <option value="QU4"> Q4 </option>
+        <option value="QU5"> Q5 </option>
 
       </select><br>
-      <input type="submit" onclick=create_graph(event) value="Create Graph">
+      <input type="submit" onclick=create_graph(event) value="Graph">
     </form>
   </div>
 </body>
