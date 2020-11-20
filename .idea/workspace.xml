@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bf2fce75-f061-4f06-9d43-dd10329d6fda" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="bf2fce75-f061-4f06-9d43-dd10329d6fda" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,12 +60,24 @@
       <updated>1605698273107</updated>
       <workItem from="1605698274191" duration="12692000" />
       <workItem from="1605787178024" duration="11568000" />
-      <workItem from="1605863099211" duration="15692000" />
+      <workItem from="1605863099211" duration="16109000" />
     </task>
+    <task id="LOCAL-00001" summary="fixed bar charts">
+      <created>1605881546544</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1605881546544</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fixed bar charts" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bar charts" />
   </component>
   <component name="WindowStateProjectService">
     <state x="418" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605698968337">
@@ -80,6 +88,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="626" y="355" width="658" height="403" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1605879046407" />
+    <state x="499" y="101" width="912" height="911" key="CommitChangelistDialog2" timestamp="1605881546032">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="499" y="101" width="912" height="911" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1605881546032" />
     <state width="1897" height="324" key="GridCell.Tab.0.bottom" timestamp="1605879354444">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -144,6 +156,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="1897" height="324" key="GridCell.Tab.3.right/0.27.1920.1053@0.27.1920.1053" timestamp="1605879354450" />
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1605881552313">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1605881552313" />
     <state x="741" y="468" width="427" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605787770932">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>

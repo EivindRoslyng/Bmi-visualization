@@ -236,7 +236,7 @@ function generate_graph_for_both_gender(labels, male_values, female_values,  mal
 
 
 
-function create_graph(e){
+function create_graph(e)    {
     e.preventDefault()
     const bmi =  document.getElementById("bmi").value
     const gender =  document.getElementById("gender").value
