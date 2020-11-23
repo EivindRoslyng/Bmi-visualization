@@ -5,7 +5,7 @@
 // Remove "time/geo" column and values associated with it
 //Remove P5 and replaced it with ".5"
 //Removed any value having "u" in the end.
-
+/*
 let bmi_data_file = "bmi-dataset-2008.csv";
 let average_wage_file = "average-wage-2008.csv";
 async function getData(filename) {
@@ -70,3 +70,4 @@ function makeDoughnutChart(data) {
     },
   });
 }
+*/
