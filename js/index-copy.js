@@ -8,7 +8,7 @@
 
 let bmi_data_file = "bmi-dataset-2008.csv";
 let average_wage_file = "average-wage-2008.csv";
-function getData(filename) {
+async function getData(filename) {
   var xmlhttp = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
@@ -28,12 +28,45 @@ function getData(filename) {
         jsonObj.push(obj);
       }
       console.log("AS JAVASCRIPT KEY-VALUE OBJECT========== \n", jsonObj);
-      return jsonObj;
+      makeDoughnutChart(jsonObj);
+      // return jsonObj;
     }
   };
 
-  xmlhttp.open("GET", filename, true);
-  xmlhttp.send();
+  await xmlhttp.open("GET", filename, true);
+  await xmlhttp.send();
 }
-const bmi_data = getData(bmi_data_file);
+// const bmi_data = getData(bmi_data_file);
 const avg_wage_data = getData(average_wage_file);
+
+function makeDoughnutChart(data) {
+  if (data.length == 1) {
+    data = data[0];
+  }
+  new Chart(document.getElementById("doughnut-chart"), {
+    type: "pie",
+    data: {
+      labels: Object.keys(data),
+      datasets: [
+        {
+          label: "Average monthly wage (Euros)",
+          //generate random color for of countries.length
+          backgroundColor: [...Array(Object.keys(data).length)].map(
+            () =>
+              "#" +
+              Math.floor(
+                16 ** 5 + Math.random() * (16 ** 6 - 16 ** 5)
+              ).toString(16)
+          ),
+          data: Object.values(data),
+        },
+      ],
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Average monthly wage (Euros)",
+      },
+    },
+  });
+}
