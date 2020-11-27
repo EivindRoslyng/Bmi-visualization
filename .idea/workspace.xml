@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bf2fce75-f061-4f06-9d43-dd10329d6fda" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +73,7 @@
       <workItem from="1606215277773" duration="8977000" />
       <workItem from="1606302504688" duration="18380000" />
       <workItem from="1606391550949" duration="13470000" />
-      <workItem from="1606467709841" duration="1935000" />
+      <workItem from="1606467709841" duration="3879000" />
     </task>
     <task id="LOCAL-00001" summary="fixed bar charts">
       <created>1605881546544</created>
@@ -201,7 +200,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/index.js</url>
-          <line>250</line>
+          <line>257</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

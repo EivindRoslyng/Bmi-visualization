@@ -213,12 +213,11 @@ async function create_graph(e)    {
                 if(gender_separation &&  sex === "T" ){
                     const generated_data_age_female =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "F", check_if_vis_on_age);
                     const generated_data_age_male =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "M", check_if_vis_on_age);
-
-                    generate_graph_for_both_gender(countries, generated_data_age_female.concat(generated_data_age_male), "No", check_if_vis_on_age)
+                    generate_graph_for_both_gender(all_ages, generated_data_age_male.concat(generated_data_age_male), "No", check_if_vis_on_age, gender_separation)
                 }
                 else{
                     let Each_age_data = finddataforageallcountries(bmi_data, countries, age, quantile, bmi, sex, check_if_vis_on_age)
-                    generate_graph_for_both_gender(all_ages, Each_age_data, "No", check_if_vis_on_age)
+                    generate_graph_for_both_gender(all_ages, Each_age_data, "No", check_if_vis_on_age, gender_separation)
 
                 }
             }
@@ -226,12 +225,11 @@ async function create_graph(e)    {
                 if(gender_separation &&  sex === "T" ){
                     const generated_data_female =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "F", gender_separation);
                     const generated_data_male =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "M", gender_separation);
-
-                    generate_graph_for_both_gender(countries, generated_data_female.concat(generated_data_male), "No", check_if_vis_on_age)
+                    generate_graph_for_both_gender(countries, generated_data_female.concat(generated_data_male), "No", check_if_vis_on_age, gender_separation)
                 }
                 else{
                     const generated_data =  finddatawithtag(bmi_data, countries, age, quantile, bmi, sex, gender_separation);
-                    generate_graph_for_both_gender(countries, generated_data, "No", check_if_vis_on_age)
+                    generate_graph_for_both_gender(countries, generated_data, "No", check_if_vis_on_age, gender_separation)
                 }
 
             }
@@ -450,8 +448,8 @@ function generate_graph_for_single_gender(labels, values, label, sorted , averag
 
 
 //this created the graph with graph js.
-function generate_graph_for_both_gender(labels, values_and_label , average_salary , checked){
-    console.log(values_and_label)
+function generate_graph_for_both_gender(labels, values_and_label , average_salary , checked, gender_seperation){
+    //console.log(values_and_label)
     //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
     if(latest_chart.length === 1){
         latest_chart[0].destroy()
@@ -479,6 +477,16 @@ function generate_graph_for_both_gender(labels, values_and_label , average_salar
             hoverBorderWidth:3,
             hoverBorderColor:'#000'
         })
+    }
+    if(checked && gender_seperation){
+        console.log(datasets)
+        let new_sorted_dataset = []
+        for (let i =0; i< (datasets.length/2);i++ ){
+            new_sorted_dataset.push(datasets[i])
+            new_sorted_dataset.push(datasets[i + (datasets.length/2)])
+        }
+        datasets = new_sorted_dataset
+        console.log(datasets)
     }
 
 
