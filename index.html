@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/index.css">
   <title>My Chart.js Chart</title>
@@ -22,7 +23,7 @@
   <div class="form">
    <form  id="bmiform">
      <label for="bmi">Target bmi:</label><br>
-     <select name="bmi" id="bmi">
+     <select name="bmi" id="bmi" multiple>
        <option value="LT18.5">Less than 18</option>
        <option value="18.5-25">18-25</option>
        <option value="25-30">25-30</option>
@@ -36,7 +37,7 @@
 
      </select><br>
      <label for="country">Country</label> <br>
-     <select name="country" id="country">
+     <select name="country" id="country" multiple>
        <option value="TOTAL">All countries</option>
        <option value="Austria">Austria</option>
        <option value ="Belgium">Belgium</option>
@@ -63,18 +64,21 @@
        <option value="no">No</option>
        <option value="Yes">Yes</option>
      </select><br>
-     <label for="Year"> Year </label> <br>
-     <select name="Year" id="Year">
+     <label for="age"> Year </label> <br>
+     <select name="age" id="age" multiple>
        <option value="TOTAL">All</option>
        <option value="Y18-44"> 18-44 </option>
        <option value="Y45-54"> 45-54 </option>
        <option value="Y55-64"> 55-64 </option>
        <option value="Y65-74"> 65-74 </option>
        <option value="Y_GE75"> older than 75 </option>
-
      </select><br>
-     <label for="QU"> Income quantile </label> <br>
-     <select name="QU" id="QU">
+     <input type="checkbox" id="vis_on_age">
+     <label for="vis_on_age"> I want to visualize on age</label><br>
+     <input type="checkbox" id="gender-separation" >
+     <label for="gender-separation"> I want to separate the data on gender</label><br>
+     <label for="quantile"> Income quantile </label> <br>
+     <select name="quantile" id="quantile" multiple>
        <option value="TOTAL">All</option>
        <option value="QU1"> Q1 </option>
        <option value="QU2"> Q2 </option>
@@ -86,6 +90,23 @@
      <input type="submit" onclick=create_graph(event) value="Graph">
    </form>
  </div>
+
+  <script>
+    window.onmousedown = function (e) {
+      var el = e.target;
+      if (el.tagName.toLowerCase() == 'option' && el.parentNode.hasAttribute('multiple')) {
+        e.preventDefault();
+
+        // toggle selection
+        if (el.hasAttribute('selected')) el.removeAttribute('selected');
+        else el.setAttribute('selected', '');
+
+        // hack to correct buggy behavior
+        var select = el.parentNode.cloneNode(true);
+        el.parentNode.parentNode.replaceChild(select, el.parentNode);
+      }
+    }
+  </script>
 </body>
 
 <!-- <script src="js/index.js"></script> -->
