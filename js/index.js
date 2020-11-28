@@ -49,6 +49,11 @@ function get_countries_and_their_values(allowed_countries, countries_dict){
 }
 
 //this one was meant to create the output users see of the label attached to the data
+function countries_in_correct_order(countries){
+    return countries_in_data.filter(country => (countries.includes(country)))
+
+}
+
 function get_label(countries_dict){
     let bmi = countries_dict["bmi"]
     let age = countries_dict["age"]
@@ -114,9 +119,12 @@ function get_label(countries_dict){
 
 //this one will create starting graph.
 function startup(bmi_data){
-    let data_for_graph = bmi_data[5]
-    let countries_and_value = get_countries_and_their_values(countries_in_data, data_for_graph)
-    generate_graph_for_single_gender(countries_and_value["countries"], countries_and_value["countries_value"], get_label(data_for_graph), "Yes", "No")
+    const generated_data_female =  finddatawithtag(bmi_data, countries_in_data, ["TOTAL"], ["TOTAL"], ["18.5-25"], "F");
+    const generated_data_male =  finddatawithtag(bmi_data, countries_in_data, ["TOTAL"], ["TOTAL"], ["18.5-25"], "M");
+    bar_graph(countries_in_data, generated_data_female.concat(generated_data_male), false)
+    const generated_data_age_female =  finddataforageallcountries(bmi_data, ["Belgium", "Austria", "Spain"],["TOTAL"], ["TOTAL"], ["18.5-25"], "F");
+    const generated_data_age_male =  finddataforageallcountries(bmi_data, countries_in_data,["TOTAL"], ["TOTAL"], ["18.5-25"], "M");
+    line_chart_graph([18, 45, 55, 65, 75], generated_data_age_female)
 }
 
 
@@ -139,9 +147,6 @@ function filecontent(file){
    return jsonObj
 }
 
-
-let myChart = document.getElementById('myChart').getContext('2d');
-let latest_chart = []
 
 
 //meant to sort, so that get to see largest value first on the graph
@@ -172,15 +177,13 @@ function sort_changed_label_position(values, labels, reverse=false){
 
 
 //this is a function we call when a user enter create graph on the website.
-async function create_graph(e)    {
+async function create_bar_graph(e)    {
     e.preventDefault()
     let countries = $('#country').val();
     let bmi =  $('#bmi').val();
     const sex =  document.getElementById("gender").value
-    const average_salary = document.getElementById("Average Salary").value
     const check_if_vis_on_age = document.getElementById("vis_on_age").checked
-    const gender_separation = document.getElementById("gender-separation").checked
-
+    countries = countries_in_correct_order(countries)
     let age = $('#age').val();
     let quantile = $('#quantile').val();
     if (bmi.length === 0){
@@ -210,26 +213,26 @@ async function create_graph(e)    {
             const all_ages = ["Y18-44", "Y45-54", "Y55-64", "Y65-74", "Y_GE75"]
             const bmi_data = filecontent(xmlhttp)
             if(check_if_vis_on_age){
-                if(gender_separation &&  sex === "T" ){
-                    const generated_data_age_female =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "F", check_if_vis_on_age);
-                    const generated_data_age_male =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "M", check_if_vis_on_age);
-                    generate_graph_for_both_gender(all_ages, generated_data_age_male.concat(generated_data_age_male), "No", check_if_vis_on_age, gender_separation)
+                if(sex === "T" ){
+                    const generated_data_age_female =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "F");
+                    const generated_data_age_male =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "M");
+                    bar_graph(all_ages, generated_data_age_female.concat(generated_data_age_male), check_if_vis_on_age)
                 }
                 else{
                     let Each_age_data = finddataforageallcountries(bmi_data, countries, age, quantile, bmi, sex, check_if_vis_on_age)
-                    generate_graph_for_both_gender(all_ages, Each_age_data, "No", check_if_vis_on_age, gender_separation)
+                    bar_graph(all_ages, Each_age_data, check_if_vis_on_age)
 
                 }
             }
             else {
-                if(gender_separation &&  sex === "T" ){
-                    const generated_data_female =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "F", gender_separation);
-                    const generated_data_male =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "M", gender_separation);
-                    generate_graph_for_both_gender(countries, generated_data_female.concat(generated_data_male), "No", check_if_vis_on_age, gender_separation)
+                if(sex === "T" ){
+                    const generated_data_female =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "F");
+                    const generated_data_male =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "M");
+                    bar_graph(countries, generated_data_female.concat(generated_data_male), check_if_vis_on_age)
                 }
                 else{
-                    const generated_data =  finddatawithtag(bmi_data, countries, age, quantile, bmi, sex, gender_separation);
-                    generate_graph_for_both_gender(countries, generated_data, "No", check_if_vis_on_age, gender_separation)
+                    const generated_data =  finddatawithtag(bmi_data, countries, age, quantile, bmi, sex);
+                    bar_graph(countries, generated_data,  check_if_vis_on_age)
                 }
 
             }
@@ -362,98 +365,18 @@ function test_if_metadata_pass_for_a_country(bmi_dict, age, quantile, bmi, sex, 
     return bmi_dict["sex"] === sex && bmi_dict["quantile"] === quantile && bmi_dict["bmi"] === bmi;
 }
 
-//to be deleted
-function generate_graph_for_single_gender(labels, values, label, sorted , average_salary){
-    if(latest_chart.length === 1){
-        latest_chart[0].destroy()
-        latest_chart.pop()
-        //console.log(latest_chart)
-    }
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
-
-    if (sorted === "Yes"){
-        labels = sort_changed_label_position(labels, values)["labels"]
-        values = sort_changed_label_position(labels, values)["values"]
-    }
-
-    //console.log(label, values)
-    /*
-    //here is the problem
-    if(average_salary === "Yes"){
-        let testingvariable = read_average_wage_file()
-        console.log(testingvariable)
-
-        labels = sort_changed_label_position(labels, values)["labels"]
-        values = sort_changed_label_position(labels, values)["values"]
-    }
-    */
-    let massPopChart = new Chart(myChart, {
-        type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-        data:{
-            labels:labels,
-            datasets:[{
-                label:label,
-                data: values,
-                //backgroundColor:'green',
-                backgroundColor: "pink",
-                borderWidth:1,
-                borderColor:'#777',
-                hoverBorderWidth:3,
-                hoverBorderColor:'#000'
-            }]
-        },
-
-        options:{
-            title:{
-                display:true,
-                text:'bmi ',
-                fontSize:25
-            },
-            legend:{
-                display:true,
-                position:'bottom',
-                labels:{
-                    fontColor:'#000'
-                }
-            },
-            layout:{
-                padding:{
-                    left:50,
-                    right:0,
-                    bottom:0,
-                    top:0
-                }
-            },
-            tooltips:{
-                enabled:true
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }],
-                xAxes: [{
-                    ticks: {
-                        autoSkip: false
-                    }
-                }]
-            }
-        }
-    });
-    latest_chart.push(massPopChart)
-}
-
 
 //this created the graph with graph js.
-function generate_graph_for_both_gender(labels, values_and_label , average_salary , checked, gender_seperation){
+
+let myChart = document.getElementById('myChart').getContext('2d');
+let bar_chart = []
+
+async function bar_graph(labels, values_and_label  , check_if_vis_age){
     //console.log(values_and_label)
     //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
-    if(latest_chart.length === 1){
-        latest_chart[0].destroy()
-        latest_chart.pop()
+    if(bar_chart.length === 1){
+        bar_chart[0].destroy()
+        bar_chart.pop()
     }
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
@@ -465,30 +388,41 @@ function generate_graph_for_both_gender(labels, values_and_label , average_salar
         let label = values_and_label[i]["label"];
         let value =  values_and_label[i]["value"]
         let new_label = label["sex"] + " " +  label["bmi"] + " "+ label["age"] + " " + label["quantile"]
-        if (checked){
+        if (check_if_vis_age){
             new_label=  label["country"]
+        }
+        let backgroundcolor = ""
+        switch(label["sex"]){
+            case "T":
+                backgroundcolor = "purple"
+                break
+            case "F":
+                backgroundcolor = "pink"
+                break
+            case "M":
+                backgroundcolor = "red"
+                break
+            default:
+                backgroundcolor =  "#" + randomColor
         }
         datasets.push({
             label: new_label,
             data: value,
-            backgroundColor: "#" + randomColor,
+            backgroundColor: backgroundcolor,
             borderWidth:1,
             borderColor:'#777',
             hoverBorderWidth:3,
             hoverBorderColor:'#000'
         })
     }
-    if(checked && gender_seperation){
-        console.log(datasets)
+    if(check_if_vis_age){
         let new_sorted_dataset = []
         for (let i =0; i< (datasets.length/2);i++ ){
             new_sorted_dataset.push(datasets[i])
             new_sorted_dataset.push(datasets[i + (datasets.length/2)])
         }
         datasets = new_sorted_dataset
-        console.log(datasets)
     }
-
 
     let massPopChart = new Chart(myChart, {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
@@ -534,8 +468,309 @@ function generate_graph_for_both_gender(labels, values_and_label , average_salar
                 }]
             }
         }
+
     });
-    latest_chart.push(massPopChart)
+    bar_chart.push(massPopChart)
 }
+/*
+async function create_scatter_plot(e){
+    e.preventDefault()
+    let countries = $('#country').val();
+    let bmi =  $('#bmi').val();
+    const sex =  document.getElementById("gender").value
+    countries = countries_in_correct_order(countries)
+    let age = $('#age').val();
+    let quantile = $('#quantile').val();
+    if (bmi.length === 0){
+        bmi = ["18.5-25"]
+    }
+    if (age.length === 0){
+        age = ["TOTAL"]
+    }
+    if (quantile.length === 0){
+        quantile = ["TOTAL"]
+    }
+
+    if (countries.length === 0 || countries.includes("TOTAL")){
+        countries = countries_in_data
+    }
+
+    if(bmi.length > 1 &&  age.length > 1 || bmi.length > 1 &&  quantile.length > 1 || quantile.length > 1 &&  age.length > 1 ){
+        alert("you can not show multiple bmi, quantile, age together with each other ")
+        return;
+    }
+    var xmlhttp = window.XMLHttpRequest
+        ? new XMLHttpRequest()
+        : new ActiveXObject("Microsoft.XMLHTTP");
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            const bmi_data = filecontent(xmlhttp)
+            if(sex === "T" ){
+                const generated_data_female =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "F");
+                const generated_data_male =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "M");
+                scatter_plot_graph(countries, generated_data_female.concat(generated_data_male))
+            }
+            else{
+                const generated_data =  finddatawithtag(bmi_data, countries, age, quantile, bmi, sex);
+                scatter_plot_graph(countries, generated_data)
+            }
+        }
+
+
+
+    };
+
+    await xmlhttp.open("GET", bmi_data_file, true);
+    await xmlhttp.send();
+
+
+}
+
+let scatterchart = document.getElementById('scatterplot').getContext('2d');
+let scatterplot_chart = []
+
+async function scatter_plot_graph(labels, values_and_label){
+    //console.log(values_and_label)
+    //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
+    if(scatterplot_chart.length === 1){
+        scatterplot_chart[0].destroy()
+        scatterplot_chart.pop()
+    }
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#777';
+    let datasets = []
+    //the array length is equal to how many different label there is. if a countries has two values, then it because dataset has been pushed twice.
+    for (let i = 0; i < values_and_label.length; i++ ){
+        let randomColor = Math.floor(Math.random()*16777215).toString(16);
+        let label = values_and_label[i]["label"];
+        let value =  values_and_label[i]["value"]
+        let new_label = label["sex"] + " " +  label["bmi"] + " "+ label["age"] + " " + label["quantile"]
+        let backgroundcolor = ""
+        let new_value = change_value_into_scatter_value(value)
+        switch(label["sex"]){
+            case "T":
+                backgroundcolor = "purple"
+                break
+            case "F":
+                backgroundcolor = "pink"
+                break
+            case "M":
+                backgroundcolor = "red"
+                break
+            default:
+                backgroundcolor =  "#" + randomColor
+        }
+        if(values_and_label.length > 2){
+            backgroundcolor =  "#" + randomColor
+        }
+        datasets.push({
+            label: new_label,
+            data: new_value,
+            backgroundColor: backgroundcolor,
+            fill: false,
+            showLine: false
+
+        })
+    }
+
+
+    let massPopChart = new Chart(scatterchart, {
+        type:'scatter', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data:{
+            labels:labels,
+            datasets:datasets
+        },
+
+        options:{
+            title:{
+                display:true,
+                text:'bmi ',
+                fontSize:25
+            },
+            legend:{
+                display:true,
+                position:"bottom",
+                labels:{
+                    fontColor:'#000'
+                }
+            },
+            layout:{
+                padding:{
+                    left:50,
+                    right:0,
+                    bottom:0,
+                    top:0
+                }
+            },
+            tooltips:{
+                enabled:true
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    position: "bottom",
+                    type:"linear",
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        },
+
+
+
+
+
+    });
+    scatterplot_chart.push(massPopChart)
+}
+
+function change_value_into_scatter_value(value){
+    let new_list = []
+    value.forEach(add_x_y)
+    function add_x_y(item, index){
+            new_list.push({x:item, y:item})
+    }
+    return new_list
+}
+
+*/
+
+
+
+async function create_line_chart(e){
+    e.preventDefault()
+    let countries = $('#country').val();
+    let bmi =  $('#bmi').val();
+    const sex =  document.getElementById("gender").value
+    countries = countries_in_correct_order(countries)
+    let age = $('#age').val();
+    let quantile = $('#quantile').val();
+    if (bmi.length === 0){
+        bmi = ["18.5-25"]
+    }
+    if (age.length === 0){
+        age = ["TOTAL"]
+    }
+    if (quantile.length === 0){
+        quantile = ["TOTAL"]
+    }
+
+    if (countries.length === 0 || countries.includes("TOTAL")){
+        countries = countries_in_data
+    }
+
+    if(bmi.length > 1 &&  age.length > 1 || bmi.length > 1 &&  quantile.length > 1 || quantile.length > 1 &&  age.length > 1 ){
+        alert("you can not show multiple bmi, quantile, age together with each other ")
+        return;
+    }
+    var xmlhttp = window.XMLHttpRequest
+        ? new XMLHttpRequest()
+        : new ActiveXObject("Microsoft.XMLHTTP");
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            const all_ages = ["Y18-44", "Y45-54", "Y55-64", "Y65-74", "Y_GE75"]
+            const labels_age = [18, 45, 55, 65,75]
+            const bmi_data = filecontent(xmlhttp)
+            if (sex === "T") {
+                const generated_data_age_female = finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "F");
+                const generated_data_age_male = finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "M");
+                line_chart_graph(labels_age, generated_data_age_female.concat(generated_data_age_male))
+            } else {
+                let Each_age_data = finddataforageallcountries(bmi_data, countries, age, quantile, bmi, sex)
+                line_chart_graph(labels_age, Each_age_data)
+
+            }
+        }
+
+
+
+
+    };
+
+    await xmlhttp.open("GET", bmi_data_file, true);
+    await xmlhttp.send();
+
+
+}
+//let linechart = document.getElementById('linegraph').getContext('2d');
+let line_chart_list = []
+
+async function line_chart_graph(labels, values_and_label){
+    console.log(values_and_label)
+    //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
+    if(line_chart_list.length === 1){
+        line_chart_list[0].destroy()
+        line_chart_list.pop()
+    }
+    let datasets = []
+    //the array length is equal to how many different label there is. if a countries has two values, then it because dataset has been pushed twice.
+    for (let i = 0; i < values_and_label.length; i++ ){
+        let randomColor = Math.floor(Math.random()*16777215).toString(16);
+        let label = values_and_label[i]["label"];
+        let value =  values_and_label[i]["value"]
+        let new_label = label["country"] + " " +  label["sex"]
+        let backgroundcolor = "#" + randomColor
+
+        datasets.push({
+            label: new_label,
+            data: value,
+            borderColor: backgroundcolor,
+            fill:false
+
+        })
+    }
+    let massPopChart = new Chart(document.getElementById("linegraph"), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            title:{
+                display:true,
+                text:'bmi ',
+                fontSize:25
+            },
+            legend:{
+                display:true,
+                position:"bottom",
+                labels:{
+                    fontColor:'#000'
+                }
+            },
+            layout:{
+                padding:{
+                    left:50,
+                    right:0,
+                    bottom:0,
+                    top:0
+                }
+            },
+            tooltips:{
+                enabled:true
+            }
+        }
+    });
+
+
+    line_chart_list.push(massPopChart)
+}
+
+
+
+async function both_graph(e){
+    create_bar_graph(e)
+    create_line_chart(e)
+}
+
 
 

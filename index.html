@@ -14,12 +14,11 @@
   <div class="container">
     <canvas id="myChart"></canvas>
   </div>
-  <!--
- <div class="container">
-   <canvas id="mysecondChart"></canvas>
- </div>
- <canvas id="doughnut-chart"></canvas>
--->
+
+
+  <div class="container">
+    <canvas id="linegraph"></canvas>
+  </div>
   <div class="form">
    <form  id="bmiform">
      <label for="bmi">Target bmi:</label><br>
@@ -59,11 +58,7 @@
        <option value="Spain">Spain</option>
        <option value="Turkey">Turkey</option>
      </select><br>
-     <label for="Average Salary"> Average Salary </label> <br>
-     <select id="Average Salary">
-       <option value="no">No</option>
-       <option value="Yes">Yes</option>
-     </select><br>
+
      <label for="age"> Year </label> <br>
      <select name="age" id="age" multiple>
        <option value="TOTAL">All</option>
@@ -73,10 +68,7 @@
        <option value="Y65-74"> 65-74 </option>
        <option value="Y_GE75"> older than 75 </option>
      </select><br>
-     <input type="checkbox" id="vis_on_age">
-     <label for="vis_on_age"> I want to visualize on age</label><br>
-     <input type="checkbox" id="gender-separation" >
-     <label for="gender-separation"> I want to separate the data on gender</label><br>
+
      <label for="quantile"> Income quantile </label> <br>
      <select name="quantile" id="quantile" multiple>
        <option value="TOTAL">All</option>
@@ -87,7 +79,9 @@
        <option value="QU5"> Q5 </option>
 
      </select><br>
-     <input type="submit" onclick=create_graph(event) value="Graph">
+     <input type="checkbox" id="vis_on_age">
+     <label for="vis_on_age"> I want to visualize on age</label><br>
+     <input type="submit" onclick=both_graph(event) value="Graph">
    </form>
  </div>
 
