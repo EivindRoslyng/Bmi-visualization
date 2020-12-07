@@ -138,6 +138,8 @@ Plotly.d3.csv("bmi-dataset-choropleth.csv", function (err, rows) {
     autosize: false,
     width: 1100,
     height: 900,
+    paper_bgcolor: "#171d1c",
+    plot_bgcolor: "#171d1c",
     geo: {
       bgcolor: "#171d1c",  
       scope: "europe",
