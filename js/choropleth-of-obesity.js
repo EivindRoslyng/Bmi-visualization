@@ -1,15 +1,15 @@
-//Data cleaning process:
+//obese_Data cleaning process:
 /*
-Modify dataset to contain percentage of underweight population of respective European countries
+Modify obese_dataset to contain percentage of underweight population of respective European countries
 Clean each row excluding bmi,sex,age,quantile
 convert each row to array of float
 replace all the NaN values to zero
 sum each indices of each row value and take average of it
 */
 
-let population_percentage = [];
+let obese_population_percentage = [];
 
-Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
+Plotly.d3.csv("bmi-choropleth-obese.csv", function (err, rows) {
   rows.map(function (row) {
     let converted_row_to_float = Object.values(row).splice(
       4,
@@ -22,32 +22,32 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
 
     console.log("Converted_row_to_float", converted_row_to_float);
 
-    population_percentage.push(converted_row_to_float);
-    //   console.log(
-    //     "Row",
-    //     Object.values(row).splice(4, Object.values(row).length)
-    //   );
-    //   return row[key];
-    // return population_percentage;
+    obese_population_percentage.push(converted_row_to_float);
   });
 
-  console.log("Population_percentage", population_percentage);
-  let sum_population_percentage = population_percentage.reduce(function (r, a) {
-    a.forEach(function (b, i) {
-      r[i] = (r[i] || 0) + b;
-    });
-    return r;
-  }, []);
-  console.log("sum_population_percentage \n", sum_population_percentage);
+  console.log("obese_Population_percentage", obese_population_percentage);
+  let sum_obese_population_percentage = obese_population_percentage.reduce(
+    function (r, a) {
+      a.forEach(function (b, i) {
+        r[i] = (r[i] || 0) + b;
+      });
+      return r;
+    },
+    []
+  );
+  console.log(
+    "sum_obese_population_percentage \n",
+    sum_obese_population_percentage
+  );
 
-  let avg_of_sum_population_percentage = sum_population_percentage.map(
+  let avg_of_sum_obese_population_percentage = sum_obese_population_percentage.map(
     function (item) {
-      return item / population_percentage.length;
+      return item / obese_population_percentage.length;
     }
   );
   console.log(
-    "Avg_of_sum_population_percentage \n",
-    avg_of_sum_population_percentage
+    "Avg_of_sum_obese_population_percentage \n",
+    avg_of_sum_obese_population_percentage
   );
   function precise_round(num, decimals) {
     var sign = num >= 0 ? 1 : -1;
@@ -56,15 +56,15 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
       Math.pow(10, decimals)
     ).toFixed(decimals);
   }
-  avg_of_sum_population_percentage = avg_of_sum_population_percentage.map(
+  avg_of_sum_obese_population_percentage = avg_of_sum_obese_population_percentage.map(
     (value) => precise_round(value, 2)
   );
   console.log(
-    " ROUNDED Avg_of_sum_population_percentage \n",
-    avg_of_sum_population_percentage
+    " ROUNDED Avg_of_sum_obese_population_percentage \n",
+    avg_of_sum_obese_population_percentage
   );
 
-  var data = [
+  const obese_data = [
     {
       type: "choropleth",
       locationmode: "country names",
@@ -88,27 +88,34 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
         "Slovakia",
         "Turkey",
       ],
-      z: avg_of_sum_population_percentage,
-      hover: "red",
+      z: avg_of_sum_obese_population_percentage,
       zmin: 0,
-      zmax: 3,
-      colorscale: "Blues",
-      reversescale: true,
+      zmax: 24,
+      colorscale: [
+        [0, "rgb(236,231,242)"],
+        [7, "rgb(166,189,219)"],
+        [12, "rgb(188,189,220)"],
+        [16, "rgb(158,154,200)"],
+        [20, "rgb(117,107,177)"],
+        [24, "rgb(209,20,20)"],
+      ],
       colorbar: {
         tickcolor: "#fff",
         tick0: 0,
         dtick: 1,
         title: {
-          text: "Underweightness",
+          text: "Obesity Level",
           font: { size: 17, color: "#fff" },
         },
-        ticksuffix: "%",
-        ypad: 50,
         thickness: 20,
         thicknessmode: "pixel",
         x: 1,
+        xpad: 70,
+        ypad: 40,
         len: 0.5,
         tickfont: { color: "#fff" },
+        tickvals: [0, 7, 12, 16, 20, 24],
+        ticktext: ["None", "Few", "Average", "Moderate", "High", "Very High"],
       },
       marker: {
         line: {
@@ -119,9 +126,9 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
     },
   ];
 
-  var layout = {
+  var obese_layout = {
     title: {
-      text: "Underweightness in 18 European Countries <b>(2008)</b>",
+      text: "Obesity in 18 European Countries <b>(2008)</b>",
       font: { size: 20, color: "#fff" },
     },
     autosize: false,
@@ -139,8 +146,8 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
   };
   var config = { responsive: true };
 
-  Plotly.newPlot("underweight-all-age-income-map", data, layout, config, {
-    showLink: false,
+  Plotly.newPlot("obese-all-age-income-map", obese_data, obese_layout, config, {
+    showLink: true,
   }).then((gd) => {
     gd.on("plotly_click", (d) => {
       var pt = (d.points || [])[0];
