@@ -20,12 +20,12 @@ Plotly.d3.csv("bmi-choropleth-obese.csv", function (err, rows) {
       Number.isNaN(value) ? 0 : value
     );
 
-    console.log("Converted_row_to_float", converted_row_to_float);
+    //console.log("Converted_row_to_float", converted_row_to_float);
 
     obese_population_percentage.push(converted_row_to_float);
   });
 
-  console.log("obese_Population_percentage", obese_population_percentage);
+  //console.log("obese_Population_percentage", obese_population_percentage);
   let sum_obese_population_percentage = obese_population_percentage.reduce(
     function (r, a) {
       a.forEach(function (b, i) {
@@ -35,20 +35,26 @@ Plotly.d3.csv("bmi-choropleth-obese.csv", function (err, rows) {
     },
     []
   );
+  /*
   console.log(
     "sum_obese_population_percentage \n",
     sum_obese_population_percentage
   );
+
+   */
 
   let avg_of_sum_obese_population_percentage = sum_obese_population_percentage.map(
     function (item) {
       return item / obese_population_percentage.length;
     }
   );
+  /*
   console.log(
     "Avg_of_sum_obese_population_percentage \n",
     avg_of_sum_obese_population_percentage
   );
+
+   */
   function precise_round(num, decimals) {
     var sign = num >= 0 ? 1 : -1;
     return (
@@ -59,10 +65,13 @@ Plotly.d3.csv("bmi-choropleth-obese.csv", function (err, rows) {
   avg_of_sum_obese_population_percentage = avg_of_sum_obese_population_percentage.map(
     (value) => precise_round(value, 2)
   );
+  /*
   console.log(
     " ROUNDED Avg_of_sum_obese_population_percentage \n",
     avg_of_sum_obese_population_percentage
   );
+
+   */
 
   const obese_data = [
     {
@@ -151,63 +160,17 @@ Plotly.d3.csv("bmi-choropleth-obese.csv", function (err, rows) {
   }).then((gd) => {
     gd.on("plotly_click", (d) => {
       var pt = (d.points || [])[0];
-      console.log(pt);
-      switch (pt.location) {
-        case "Belgium":
-          alert("you clicked on Belgium");
-          break;
-        case "Bulgaria":
-          alert("you clicked on Bulgaria");
-          break;
-        case "Czechia":
-          alert("you clicked on Czechia");
-          break;
-        case "Germany":
-          alert("you clicked on Germany");
-          break;
-        case "Estonia":
-          alert("you clicked on Estonia");
-          break;
-        case "Ireland":
-          alert("you clicked on Ireland");
-          break;
-        case "Spain":
-          alert("you clicked on Spain");
-          break;
-        case "France":
-          alert("you clicked on France");
-          break;
-        case "Cyprus":
-          alert("you clicked on Cyprus");
-          break;
-        case "Latvia":
-          alert("you clicked on Latvia");
-          break;
-        case "Luxembourg":
-          alert("you clicked on Luxembourg");
-          break;
-        case "Malta":
-          alert("you clicked on Malta");
-          break;
-        case "Austria":
-          alert("you clicked on Austria");
-          break;
-        case "Poland":
-          alert("you clicked on Poland");
-          break;
-        case "Romania":
-          alert("you clicked on Romania");
-          break;
-        case "Turkey":
-          alert("you clicked on Turkey");
-          break;
-        case "Slovenia":
-          alert("you clicked on Slovenia");
-          break;
-        case "Slovakia":
-          alert("you clicked on Slovakia");
-          break;
+      let country =  pt.location
+      if (countries_chosen_to_be_vis.includes(country)){
+        let index_country = countries_chosen_to_be_vis.indexOf(country)
+        //console.log(index_country)
+        countries_chosen_to_be_vis.splice(index_country,index_country+1)
       }
+      else{
+        countries_chosen_to_be_vis.push(country)
+      }
+      getData("bmi-dataset-2008.csv")
     });
   });
 });
+

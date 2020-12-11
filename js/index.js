@@ -6,7 +6,6 @@
 // Remove "time/geo" column and values associated with it
 //Remove P5 and replaced it with ".5"
 //Removed any value having "u" in the end.
-
 let bmi_data_file = "bmi-dataset-2008.csv";
 let average_wage_file = "average-wage-2008.csv";
 async function getData(filename) {
@@ -27,7 +26,6 @@ async function getData(filename) {
 const bmi = getData(bmi_data_file);
 //const avg_wage_data = getData(average_wage_file);
 const countries_in_data = ["Belgium", "Bulgaria", "Czechia", "Germany",  "Estonia" , "Ireland", 	"Spain",  	"France" , 	"Cyprus" , 	"Latvia" 	, "Luxembourg"   , 	"Malta"  , "Austria","Poland" , "Romania", "Slovenia", "Slovakia" , "Turkey"];
-
 /////////////////////////////////////////////////////////
 // TODO STARTS HERE
 
@@ -64,7 +62,7 @@ function get_label(countries_dict){
             bmi = "Underweight"
             break
         case "18.5-25":
-            bmi = "Normal weight"
+            bmi = "Normal Weight"
             break;
         case "25-30":
             bmi = "Overweight"
@@ -76,7 +74,7 @@ function get_label(countries_dict){
             bmi = "Error"
     }
     if (age === "TOTAL"){
-        age = "All ages"
+        age = ""
     }
     switch (gender) {
         case "F":
@@ -93,7 +91,7 @@ function get_label(countries_dict){
     }
     switch(income) {
         case "TOTAL":
-            income = "All income level"
+            income = ""
             break
         case "QU1":
             income = "lowest income level"
@@ -113,7 +111,14 @@ function get_label(countries_dict){
         default:
             income = "Error"
     }
-    return bmi + " " + age + " " + gender + " " + income
+    let label =  bmi + ", " + gender
+    if (age !== ""){
+        label = label+ ", " +  age
+    }
+    if(income!== ""){
+        label = label + ", " + income
+    }
+    return label
 }
 
 
@@ -122,17 +127,18 @@ function startup(bmi_data){
     const generated_data_female =  finddatawithtag(bmi_data, countries_in_data, ["TOTAL"], ["TOTAL"], ["18.5-25"], "F");
     const generated_data_male =  finddatawithtag(bmi_data, countries_in_data, ["TOTAL"], ["TOTAL"], ["18.5-25"], "M");
     bar_graph(countries_in_data, generated_data_female.concat(generated_data_male), false)
-    const generated_data_age_female =  finddataforageallcountries(bmi_data, ["Belgium", "Austria", "Spain"],["TOTAL"], ["TOTAL"], ["18.5-25"], "F");
-    const generated_data_age_male =  finddataforageallcountries(bmi_data, countries_in_data,["TOTAL"], ["TOTAL"], ["18.5-25"], "M");
-    line_chart_graph([18, 45, 55, 65, 75], generated_data_age_female)
+    scatter_plot_graph(countries_in_data,generated_data_female.concat(generated_data_male))
+    //const generated_data_age_female =  finddataforageallcountries(bmi_data, ["Belgium", "Austria", "Spain"],["TOTAL"], ["TOTAL"], ["18.5-25"], "F");
+    //const generated_data_age_male =  finddataforageallcountries(bmi_data, countries_in_data,["TOTAL"], ["TOTAL"], ["18.5-25"], "M");
+    //line_chart_graph([18, 45, 55, 65, 75], generated_data_age_female)
 }
 
 
 
 //takes the csv file and create an array with obj consisting of one set of tags.
 function filecontent(file){
-   csv_file = file.responseText;
-   arr = csv_file.split("\n");
+   let csv_file = file.responseText;
+   let arr = csv_file.split("\n");
    var jsonObj = [];
    var headers = arr[0].split(",");
    for (var i = 1; i < arr.length; i++) {
@@ -151,10 +157,10 @@ function filecontent(file){
 
 //meant to sort, so that get to see largest value first on the graph
 function sort_changed_label_position(values, labels, reverse=false){
-    new_combined_array = []
+    let new_combined_array = []
     var i;
     for (i = 0; i < values.length; i++) {
-        new_combined_element = [values[i], labels[i] ] ;
+        let new_combined_element = [values[i], labels[i] ] ;
         new_combined_array.push(new_combined_element)
     }
     new_combined_array.sort(function(a,b){return a[1] < b[1]})
@@ -182,7 +188,6 @@ async function create_bar_graph(e)    {
     let countries = $('#country').val();
     let bmi =  $('#bmi').val();
     const sex =  document.getElementById("gender").value
-    const check_if_vis_on_age = document.getElementById("vis_on_age").checked
     countries = countries_in_correct_order(countries)
     let age = $('#age').val();
     let quantile = $('#quantile').val();
@@ -212,35 +217,22 @@ async function create_bar_graph(e)    {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             const all_ages = ["Y18-44", "Y45-54", "Y55-64", "Y65-74", "Y_GE75"]
             const bmi_data = filecontent(xmlhttp)
-            if(check_if_vis_on_age){
-                if(sex === "T" ){
-                    const generated_data_age_female =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "F");
-                    const generated_data_age_male =  finddataforageallcountries(bmi_data, countries, age, quantile, bmi, "M");
-                    bar_graph(all_ages, generated_data_age_female.concat(generated_data_age_male), check_if_vis_on_age)
-                }
-                else{
-                    let Each_age_data = finddataforageallcountries(bmi_data, countries, age, quantile, bmi, sex, check_if_vis_on_age)
-                    bar_graph(all_ages, Each_age_data, check_if_vis_on_age)
-
-                }
+            if(sex === "T" ){
+                const generated_data_female =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "F");
+                const generated_data_male =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "M");
+                bar_graph(countries, generated_data_female.concat(generated_data_male))
             }
-            else {
-                if(sex === "T" ){
-                    const generated_data_female =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "F");
-                    const generated_data_male =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "M");
-                    bar_graph(countries, generated_data_female.concat(generated_data_male), check_if_vis_on_age)
-                }
-                else{
-                    const generated_data =  finddatawithtag(bmi_data, countries, age, quantile, bmi, sex);
-                    bar_graph(countries, generated_data,  check_if_vis_on_age)
-                }
-
-            }
+        else{
+            const generated_data =  finddatawithtag(bmi_data, countries, age, quantile, bmi, sex);
+            bar_graph(countries, generated_data)
         }
 
+            }
 
 
-    };
+
+
+    }
 
     await xmlhttp.open("GET", bmi_data_file, true);
     await xmlhttp.send();
@@ -365,13 +357,12 @@ function test_if_metadata_pass_for_a_country(bmi_dict, age, quantile, bmi, sex, 
     return bmi_dict["sex"] === sex && bmi_dict["quantile"] === quantile && bmi_dict["bmi"] === bmi;
 }
 
-
 //this created the graph with graph js.
 
 let myChart = document.getElementById('myChart').getContext('2d');
 let bar_chart = []
 
-async function bar_graph(labels, values_and_label  , check_if_vis_age){
+async function bar_graph(labels, values_and_label){
     //console.log(values_and_label)
     //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
     if(bar_chart.length === 1){
@@ -387,20 +378,18 @@ async function bar_graph(labels, values_and_label  , check_if_vis_age){
         let randomColor = Math.floor(Math.random()*16777215).toString(16);
         let label = values_and_label[i]["label"];
         let value =  values_and_label[i]["value"]
-        let new_label = label["sex"] + " " +  label["bmi"] + " "+ label["age"] + " " + label["quantile"]
-        if (check_if_vis_age){
-            new_label=  label["country"]
-        }
+        let new_label = get_label(label)
+
         let backgroundcolor = ""
         switch(label["sex"]){
             case "T":
                 backgroundcolor = "purple"
                 break
             case "F":
-                backgroundcolor = "pink"
+                backgroundcolor = "red"
                 break
             case "M":
-                backgroundcolor = "red"
+                backgroundcolor = "green"
                 break
             default:
                 backgroundcolor =  "#" + randomColor
@@ -415,14 +404,7 @@ async function bar_graph(labels, values_and_label  , check_if_vis_age){
             hoverBorderColor:'#000'
         })
     }
-    if(check_if_vis_age){
-        let new_sorted_dataset = []
-        for (let i =0; i< (datasets.length/2);i++ ){
-            new_sorted_dataset.push(datasets[i])
-            new_sorted_dataset.push(datasets[i + (datasets.length/2)])
-        }
-        datasets = new_sorted_dataset
-    }
+
 
     let massPopChart = new Chart(myChart, {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
@@ -458,8 +440,18 @@ async function bar_graph(labels, values_and_label  , check_if_vis_age){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
-                    }
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            return  value +'%';
+                        },
+
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'BMI percentage'
+                    },
+                    display:true
+
                 }],
                 xAxes: [{
                     ticks: {
@@ -472,7 +464,7 @@ async function bar_graph(labels, values_and_label  , check_if_vis_age){
     });
     bar_chart.push(massPopChart)
 }
-/*
+
 async function create_scatter_plot(e){
     e.preventDefault()
     let countries = $('#country').val();
@@ -537,34 +529,33 @@ async function scatter_plot_graph(labels, values_and_label){
         scatterplot_chart[0].destroy()
         scatterplot_chart.pop()
     }
+    //console.log(values_and_label)
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
     Chart.defaults.global.defaultFontColor = '#777';
     let datasets = []
     //the array length is equal to how many different label there is. if a countries has two values, then it because dataset has been pushed twice.
+    let female_count = 0
+    let male_count = 0
     for (let i = 0; i < values_and_label.length; i++ ){
         let randomColor = Math.floor(Math.random()*16777215).toString(16);
         let label = values_and_label[i]["label"];
         let value =  values_and_label[i]["value"]
-        let new_label = label["sex"] + " " +  label["bmi"] + " "+ label["age"] + " " + label["quantile"]
+        let new_label = get_label(label)
         let backgroundcolor = ""
         let new_value = change_value_into_scatter_value(value)
         switch(label["sex"]){
-            case "T":
-                backgroundcolor = "purple"
-                break
             case "F":
-                backgroundcolor = "pink"
+                backgroundcolor =  "red"
                 break
             case "M":
-                backgroundcolor = "red"
-                break
+                backgroundcolor =  "green"
+                break;
             default:
                 backgroundcolor =  "#" + randomColor
         }
-        if(values_and_label.length > 2){
-            backgroundcolor =  "#" + randomColor
-        }
+
+
         datasets.push({
             label: new_label,
             data: new_value,
@@ -610,15 +601,31 @@ async function scatter_plot_graph(labels, values_and_label){
             scales: {
                 yAxes: [{
                     ticks: {
-
-                        beginAtZero: true
+                        callback: function(value, index, values) {
+                            return  value +'€';
+                        },
+                        beginAtZero: true,
+                    },
+                    //display:true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Average Wage'
                     }
                 }],
                 xAxes: [{
                     position: "bottom",
                     type:"linear",
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            return  value +'%';
+                        },
+                        //display: true,
+
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'BMI percentage'
                     }
                 }]
             }
@@ -632,16 +639,17 @@ async function scatter_plot_graph(labels, values_and_label){
     scatterplot_chart.push(massPopChart)
 }
 
-function change_value_into_scatter_value(value){
+function change_value_into_scatter_value(bmi_countries){
     let new_list = []
-    value.forEach(add_x_y)
-    function add_x_y(item, index){
-            new_list.push({x:item, y:item})
+    let average_wage =  [2936,279,906,3103,825,3682,2014,2003,1801,682,4051,1042,3410,837,478,1391,773,144]
+    for (let i = 0; i < bmi_countries.length; i++){
+        new_list.push({x:bmi_countries[i], y:average_wage[i]})
     }
+
     return new_list
 }
 
-*/
+
 
 
 
@@ -769,7 +777,7 @@ async function line_chart_graph(labels, values_and_label){
 
 async function both_graph(e){
     create_bar_graph(e)
-    create_line_chart(e)
+    create_scatter_plot(e)
 }
 
 

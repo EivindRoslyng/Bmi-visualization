@@ -20,12 +20,12 @@ Plotly.d3.csv("bmi-choropleth-normal.csv", function (err, rows) {
       Number.isNaN(value) ? 0 : value
     );
 
-    console.log("Converted_row_to_float", converted_row_to_float);
+    //console.log("Converted_row_to_float", converted_row_to_float);
 
     normal_population_percentage.push(converted_row_to_float);
   });
 
-  console.log("normal_Population_percentage", normal_population_percentage);
+  //console.log("normal_Population_percentage", normal_population_percentage);
   let sum_normal_population_percentage = normal_population_percentage.reduce(
     function (r, a) {
       a.forEach(function (b, i) {
@@ -35,20 +35,24 @@ Plotly.d3.csv("bmi-choropleth-normal.csv", function (err, rows) {
     },
     []
   );
+  /*
   console.log(
     "sum_normal_population_percentage \n",
     sum_normal_population_percentage
   );
-
+cc*/
   let avg_of_sum_normal_population_percentage = sum_normal_population_percentage.map(
     function (item) {
       return item / normal_population_percentage.length;
     }
   );
+  /*
   console.log(
     "Avg_of_sum_normal_population_percentage \n",
     avg_of_sum_normal_population_percentage
   );
+
+   */
   function precise_round(num, decimals) {
     var sign = num >= 0 ? 1 : -1;
     return (
@@ -59,10 +63,13 @@ Plotly.d3.csv("bmi-choropleth-normal.csv", function (err, rows) {
   avg_of_sum_normal_population_percentage = avg_of_sum_normal_population_percentage.map(
     (value) => precise_round(value, 2)
   );
+  /*
   console.log(
     " ROUNDED Avg_of_sum_normal_population_percentage \n",
     avg_of_sum_normal_population_percentage
   );
+
+   */
 
   const normal_weight_data = [
     {
@@ -151,7 +158,7 @@ Plotly.d3.csv("bmi-choropleth-normal.csv", function (err, rows) {
   ).then((gd) => {
     gd.on("plotly_click", (d) => {
       var pt = (d.points || [])[0];
-      console.log(pt);
+      //console.log(pt);
       switch (pt.location) {
         case "Belgium":
           alert("you clicked on Belgium");
