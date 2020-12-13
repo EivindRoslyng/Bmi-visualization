@@ -6,6 +6,11 @@ convert each row to array of float
 replace all the NaN values to zero
 sum each indices of each row value and take average of it
 */
+$(document).ready(function(){
+	$("#carouselExampleControls").carousel({
+		interval : false
+  });
+});
 let obese_population_percentage = [];
 let normal_population_percentage = [];
 let population_percentage = [];
@@ -131,6 +136,8 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
       text: "Underweightness in 18 European Countries <b>(2008)</b>",
       font: { size: 20, color: "#fff" },
     },
+    yaxis: {fixedrange: true},
+    xaxis : {fixedrange: true},
     autosize: false,
     width: 1100,
     height: 800,
@@ -163,6 +170,11 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
       getData(bmi_data_file, ["LT18.5"])
 
     });
+//     var update = {
+//       'xaxis.range': [0, 12],   // updates the xaxis range
+//       'yaxis.range[1]': 15     // updates the end of the yaxis range
+//   };
+// Plotly.relayout("underweight-all-age-income-map", update);
   });
 });
 
@@ -498,6 +510,7 @@ cc*/
       getData(bmi_data_file, ["18.5-25"])
 
     });
+
   });
 });
 
