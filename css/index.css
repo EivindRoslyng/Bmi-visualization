@@ -1,4 +1,11 @@
-#doughnut-chart{
-    width: 800px !important;
-    height: 800px !important;
+/*
+*
+* ==========================================
+* FOR DEMO PURPOSE
+* ==========================================
+*
+*/
+.container{
+    max-width: 1000px;
+    max-height: 500px;
 }

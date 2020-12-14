@@ -6,6 +6,11 @@ convert each row to array of float
 replace all the NaN values to zero
 sum each indices of each row value and take average of it
 */
+let bmi_data_file = "bmi-dataset-2008.csv";
+let countries_chosen_to_be_vis_obese = []
+let current_shown_element = ["LT18.5"]
+
+
 $(document).ready(function(){
 	$("#carouselExampleControls").carousel({
 		interval : false
@@ -26,8 +31,8 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
       Number.isNaN(value) ? 0 : value
     );
 
-    //console.log("Converted_row_to_float", converted_row_to_float);
 
+    //console.log("Converted_row_to_float", converted_row_to_float);
     population_percentage.push(converted_row_to_float);
     //   console.log(
     //     "Row",
@@ -195,6 +200,7 @@ Plotly.d3.csv("bmi-choropleth-obese.csv", function (err, rows) {
     obese_population_percentage.push(converted_row_to_float);
   });
 
+
   //console.log("obese_Population_percentage", obese_population_percentage);
   let sum_obese_population_percentage = obese_population_percentage.reduce(
       function (r, a) {
@@ -359,11 +365,12 @@ Plotly.d3.csv("bmi-choropleth-normal.csv", function (err, rows) {
         Number.isNaN(value) ? 0 : value
     );
 
+
+
     //console.log("Converted_row_to_float", converted_row_to_float);
 
     normal_population_percentage.push(converted_row_to_float);
   });
-
   //console.log("normal_Population_percentage", normal_population_percentage);
   let sum_normal_population_percentage = normal_population_percentage.reduce(
       function (r, a) {
@@ -532,10 +539,15 @@ async function getData(filename, bmi) {
   await xmlhttp.open("GET", filename, true);
   await xmlhttp.send();
 }
-let bmi_data_file = "bmi-dataset-2008.csv";
-let countries_chosen_to_be_vis_obese = []
+
 
 function startup(bmi_data, bmi){
+  if(countries_chosen_to_be_vis_obese.length === 0){
+    document.getElementById("canvas").style.display = "none"
+  }
+  else{
+    document.getElementById("canvas").style.display = "block"
+  }
   const generated_data_age =  finddataforageallcountries(bmi_data, countries_chosen_to_be_vis_obese,["TOTAL"], ["TOTAL"], bmi, "T");
   line_chart_graph([18, 45, 55, 65, 75], generated_data_age)
 }
@@ -548,28 +560,6 @@ const countries_in_data = ["Belgium", "Bulgaria", "Czechia", "Germany",  "Estoni
 
 
 
-//we get a object like {bmi: 18-25,  sex: F ,  belgium: 20.50 and so on } then we return object with countries and values we want, thereby discarding sex, bmi, ects.
-function get_countries_and_their_values(allowed_countries, countries_dict){
-  let countries = []
-  let countries_value = []
-  for (const [key, value] of Object.entries(countries_dict)) {
-
-    if (allowed_countries.includes(key)){
-      countries.push(key)
-      countries_value.push(value)
-    }
-  }
-  return{
-    countries:countries,
-    countries_value:countries_value
-  }
-}
-
-//this one was meant to create the output users see of the label attached to the data
-function countries_in_correct_order(countries){
-  return countries_in_data.filter(country => (countries.includes(country)))
-
-}
 
 //this one will create starting graph.
 
@@ -627,10 +617,7 @@ function findagedataforcountry(array_of_bmi , country , age, quantile, bmi, sex)
 
 
 
-//check tags in the file are in the same as the ones we have supplied
-function test_if_metadata_pass_for_all_countries(bmi_dict, age, quantile, bmi, sex){
-  return bmi_dict["sex"] === sex  && bmi_dict["age"]=== age  && bmi_dict["quantile"] ===quantile  && bmi_dict["bmi"] === bmi;
-}
+
 
 //here we want to find different data when we are looking with age.
 function test_if_metadata_pass_for_a_country(bmi_dict, age, quantile, bmi, sex, ages){
@@ -646,6 +633,9 @@ let line_chart_list = []
 async function line_chart_graph(labels, values_and_label){
   //console.log(values_and_label)
   //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
+  console.log(Chart.defaults.global)
+
+
   if(line_chart_list.length === 1){
     line_chart_list[0].destroy()
     line_chart_list.pop()
@@ -726,3 +716,20 @@ async function line_chart_graph(labels, values_and_label){
   line_chart_list.push(massPopChart)
 }
 
+$("#carouselExampleControls").on('slide.bs.carousel', function () {
+  switch (current_shown_element[0]){
+    case"LT18.5":
+      current_shown_element= ["GE30"];
+      break;
+    case "GE30":
+      current_shown_element = ["18.5-25"];
+      break;
+    case "18.5-25":
+      current_shown_element = ["LT18.5"]
+  }
+  if(countries_chosen_to_be_vis_obese !== 0){
+    getData(bmi_data_file, current_shown_element)
+  }
+
+
+});

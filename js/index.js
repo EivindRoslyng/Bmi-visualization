@@ -1,4 +1,3 @@
-
 //---DATA CLEANING STEPS---
 // converted .tsv to .csv
 // trimmed unnecessary spaces and double quotes from .csv
@@ -48,7 +47,11 @@ function get_countries_and_their_values(allowed_countries, countries_dict){
 
 //this one was meant to create the output users see of the label attached to the data
 function countries_in_correct_order(countries){
-    return countries_in_data.filter(country => (countries.includes(country)))
+    let new_countries = countries_in_data.filter(country => (countries.includes(country)))
+    if (countries.includes("TOTAL")){
+        new_countries = countries_in_data
+    }
+    return new_countries
 
 }
 
@@ -184,13 +187,14 @@ function sort_changed_label_position(values, labels, reverse=false){
 
 //this is a function we call when a user enter create graph on the website.
 async function create_bar_graph(e)    {
+
     e.preventDefault()
-    let countries = $('#country').val();
-    let bmi =  $('#bmi').val();
-    const sex =  document.getElementById("gender").value
+    let countries = $('#bar_country').val();
+    let bmi =  $('#bar_bmi').val();
+    const sex =  document.getElementById("bar_gender").value
     countries = countries_in_correct_order(countries)
-    let age = $('#age').val();
-    let quantile = $('#quantile').val();
+    let age = $('#bar_age').val();
+    let quantile = $('#bar_quantile').val();
     if (bmi.length === 0){
         bmi = ["18.5-25"]
     }
@@ -204,7 +208,7 @@ async function create_bar_graph(e)    {
     if (countries.length === 0 || countries.includes("TOTAL")){
         countries = countries_in_data
     }
-
+    console.log(countries, bmi, sex, quantile)
     if(bmi.length > 1 &&  age.length > 1 || bmi.length > 1 &&  quantile.length > 1 || quantile.length > 1 &&  age.length > 1 ){
         alert("you can not show multiple bmi, quantile, age together with each other ")
         return;
@@ -215,11 +219,11 @@ async function create_bar_graph(e)    {
 
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            const all_ages = ["Y18-44", "Y45-54", "Y55-64", "Y65-74", "Y_GE75"]
             const bmi_data = filecontent(xmlhttp)
             if(sex === "T" ){
                 const generated_data_female =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "F");
                 const generated_data_male =  finddatawithtag(bmi_data, countries, age, quantile, bmi, "M");
+                console.log(generated_data_female)
                 bar_graph(countries, generated_data_female.concat(generated_data_male))
             }
         else{
@@ -467,12 +471,13 @@ async function bar_graph(labels, values_and_label){
 
 async function create_scatter_plot(e){
     e.preventDefault()
-    let countries = $('#country').val();
-    let bmi =  $('#bmi').val();
-    const sex =  document.getElementById("gender").value
+    let countries = $('#scatter_country').val();
+    let bmi =  [$('#scatter_bmi').val()];
+    const sex =  document.getElementById("scatter_gender").value
+    console.log(countries)
     countries = countries_in_correct_order(countries)
-    let age = $('#age').val();
-    let quantile = $('#quantile').val();
+    let age = [$('#scatter_age').val()];
+    let quantile = [$('#scatter_quantile').val()];
     if (bmi.length === 0){
         bmi = ["18.5-25"]
     }
@@ -482,11 +487,11 @@ async function create_scatter_plot(e){
     if (quantile.length === 0){
         quantile = ["TOTAL"]
     }
-
+    console.log(countries)
     if (countries.length === 0 || countries.includes("TOTAL")){
         countries = countries_in_data
     }
-
+    //console.log(bmi, sex, age, quantile, countries)
     if(bmi.length > 1 &&  age.length > 1 || bmi.length > 1 &&  quantile.length > 1 || quantile.length > 1 &&  age.length > 1 ){
         alert("you can not show multiple bmi, quantile, age together with each other ")
         return;
@@ -537,6 +542,7 @@ async function scatter_plot_graph(labels, values_and_label){
     //the array length is equal to how many different label there is. if a countries has two values, then it because dataset has been pushed twice.
     let female_count = 0
     let male_count = 0
+    //console.log(values_and_label)
     for (let i = 0; i < values_and_label.length; i++ ){
         let randomColor = Math.floor(Math.random()*16777215).toString(16);
         let label = values_and_label[i]["label"];
@@ -782,3 +788,10 @@ async function both_graph(e){
 
 
 
+$('select').on('change', function(e){
+    //console.log("change")
+});
+
+function hello(){
+    alert("nah")
+}
