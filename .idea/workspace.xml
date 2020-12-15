@@ -4,7 +4,11 @@
     <list default="true" id="bf2fce75-f061-4f06-9d43-dd10329d6fda" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/choropleth.html" beforeDir="false" afterPath="$PROJECT_DIR$/choropleth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/choropleth.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/choropleth.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/choropleth.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/choropleth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,29 +46,29 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected="JavaScript Debug.index.html">
-    <configuration name="Test.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/bmi vis/js/Test.html" useBuiltInWebServerPort="true">
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="JavaScript Debug.choropleth.html">
     <configuration name="choropleth.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/bmi vis/choropleth.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/bmi vis/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="choropleth.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/js/choropleth.js" working-dir="$PROJECT_DIR$/js">
+    <configuration name="test2.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/bmi vis/test2.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="index.js (1)" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/js/index.js" working-dir="$PROJECT_DIR$/js">
+    <configuration name="test.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/bmi vis/test.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="testfile.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/bmi vis/testfile.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.index.html" />
         <item itemvalue="JavaScript Debug.choropleth.html" />
-        <item itemvalue="Node.js.choropleth.js" />
-        <item itemvalue="Node.js.index.js (1)" />
-        <item itemvalue="JavaScript Debug.Test.html" />
+        <item itemvalue="JavaScript Debug.index.html" />
+        <item itemvalue="JavaScript Debug.test2.html" />
+        <item itemvalue="JavaScript Debug.test.html" />
+        <item itemvalue="JavaScript Debug.testfile.html" />
       </list>
     </recent_temporary>
   </component>
@@ -91,7 +95,9 @@
       <workItem from="1607677845675" duration="5492000" />
       <workItem from="1607687851641" duration="7801000" />
       <workItem from="1607883907690" duration="775000" />
-      <workItem from="1607936784649" duration="5719000" />
+      <workItem from="1607936784649" duration="21084000" />
+      <workItem from="1608011344486" duration="47000" />
+      <workItem from="1608027154798" duration="5693000" />
     </task>
     <task id="LOCAL-00001" summary="fixed bar charts">
       <created>1605881546544</created>
@@ -210,6 +216,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="741" y="468" width="427" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1605787770932" />
+    <state x="792" y="50" width="1570" height="1009" key="dock-window-1" timestamp="1608029777839">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="792" y="50" width="1570" height="1009" key="dock-window-1/0.27.1920.1053@0.27.1920.1053" timestamp="1608029777839" />
     <state x="650" y="162" width="620" height="783" key="find.popup" timestamp="1606218674018">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -218,10 +228,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="624" y="252" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1606568073880" />
-    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1606304581840">
+    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1608027210342">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1606304581840" />
+    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1608027210342" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -233,17 +243,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/index.js</url>
-          <line>243</line>
+          <line>247</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/index.js</url>
-          <line>197</line>
+          <line>201</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/index.js</url>
-          <line>207</line>
+          <line>211</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -269,8 +279,12 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/choropleth.js</url>
           <line>22</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/js/index.js</url>
+          <line>477</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

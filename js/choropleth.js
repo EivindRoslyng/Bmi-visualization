@@ -8,7 +8,7 @@ sum each indices of each row value and take average of it
 */
 let bmi_data_file = "bmi-dataset-2008.csv";
 let countries_chosen_to_be_vis_obese = []
-let current_shown_element = ["LT18.5"]
+let current_shown_element = "LT18.5"
 
 
 $(document).ready(function(){
@@ -628,12 +628,12 @@ function test_if_metadata_pass_for_a_country(bmi_dict, age, quantile, bmi, sex, 
 
 let linechart = document.getElementById('linegraph').getContext('2d');
 let line_chart_list = []
-
-
+let colors = ["#F75C03", "#D90368", "#04A777", "#7E3F8F", "#CBF3D2", "#FCFF4B", "#FFAD05", "#E08DAC", "#8CFF98", "#AAD922", "#6F7C12", "#45CB86"]
+colors = colors.concat(colors)
 async function line_chart_graph(labels, values_and_label){
   //console.log(values_and_label)
   //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
-  console.log(Chart.defaults.global)
+  //console.log(Chart.defaults.global)
 
 
   if(line_chart_list.length === 1){
@@ -647,7 +647,7 @@ async function line_chart_graph(labels, values_and_label){
     let label = values_and_label[i]["label"];
     let value =  values_and_label[i]["value"]
     let new_label = label["country"]
-    let backgroundcolor = "#" + randomColor
+    let backgroundcolor = colors[i]
 
     datasets.push({
       label: new_label,
@@ -668,13 +668,14 @@ async function line_chart_graph(labels, values_and_label){
       title:{
         display:true,
         text:'bmi ',
-        fontSize:25
+        fontSize:25,
+        fontColor: "white"
       },
       legend:{
         display:true,
         position:"bottom",
         labels:{
-          fontColor:'#000'
+          fontColor:'white'
         }
       },
       layout:{
@@ -691,20 +692,26 @@ async function line_chart_graph(labels, values_and_label){
       scales: {
         yAxes: [{
           ticks: {
+            fontColor:"white",
             callback: function(value, index, values) {
               return  value +'%';
             },
           },
           //display:true,
           scaleLabel: {
+            fontColor: "white",
             display: true,
             labelString: 'BMI percentage'
           }
         }],
         xAxes: [{
           scaleLabel: {
+            fontColor:"white",
             display: true,
             labelString: 'Age'
+          },
+          ticks:{
+            fontColor:"white",
           }
         }]
       }
@@ -716,20 +723,45 @@ async function line_chart_graph(labels, values_and_label){
   line_chart_list.push(massPopChart)
 }
 
-$("#carouselExampleControls").on('slide.bs.carousel', function () {
-  switch (current_shown_element[0]){
-    case"LT18.5":
-      current_shown_element= ["GE30"];
-      break;
-    case "GE30":
-      current_shown_element = ["18.5-25"];
-      break;
-    case "18.5-25":
-      current_shown_element = ["LT18.5"]
+$("#carouselExampleControls").on('slide.bs.carousel', function (e) {
+  let direction = e.direction
+  console.log(direction, "right")
+
+  if (direction === "left") {
+    switch (current_shown_element) {
+      case"LT18.5":
+        current_shown_element = "GE30";
+        break;
+      case "GE30":
+        current_shown_element = "18.5-25";
+        break;
+      case "18.5-25":
+        current_shown_element = "LT18.5";
+        break;
+      default:
+        alert("something went wrong slide")
+    }
   }
-  if(countries_chosen_to_be_vis_obese !== 0){
-    getData(bmi_data_file, current_shown_element)
+  if (direction === "right") {
+    switch (current_shown_element) {
+      case"LT18.5":
+        current_shown_element = "18.5-25";
+        break;
+      case "GE30":
+        current_shown_element = "LT18.5";
+        break;
+      case "18.5-25":
+        current_shown_element = "GE30";
+        break;
+      default:
+        alert("something went wrong slide")
+    }
   }
+
+  if (countries_chosen_to_be_vis_obese !== 0) {
+      getData(bmi_data_file, [current_shown_element])
+  }
+
 
 
 });

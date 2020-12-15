@@ -375,7 +375,9 @@ async function bar_graph(labels, values_and_label){
     }
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
+    Chart.defaults.global.defaultFontColor = "#FFFFFF";
+    console.log(Chart.defaults.global)
+
     let datasets = []
     //the array length is equal to how many different label there is. if a countries has two values, then it because dataset has been pushed twice.
     for (let i = 0; i < values_and_label.length; i++ ){
@@ -421,13 +423,14 @@ async function bar_graph(labels, values_and_label){
             title:{
                 display:true,
                 text:'bmi ',
-                fontSize:25
+                fontSize:25,
+                fontColor:'white'
             },
             legend:{
                 display:true,
                 position:"bottom",
                 labels:{
-                    fontColor:'#000'
+                    fontColor:'white'
                 }
             },
             layout:{
@@ -444,6 +447,7 @@ async function bar_graph(labels, values_and_label){
             scales: {
                 yAxes: [{
                     ticks: {
+                        fontColor:"white",
                         beginAtZero: true,
                         callback: function(value, index, values) {
                             return  value +'%';
@@ -451,6 +455,7 @@ async function bar_graph(labels, values_and_label){
 
                     },
                     scaleLabel: {
+                        fontColor:"white",
                         display: true,
                         labelString: 'BMI percentage'
                     },
@@ -459,6 +464,7 @@ async function bar_graph(labels, values_and_label){
                 }],
                 xAxes: [{
                     ticks: {
+                        fontColor:"white",
                         autoSkip: false
                     }
                 }]
@@ -584,13 +590,15 @@ async function scatter_plot_graph(labels, values_and_label){
             title:{
                 display:true,
                 text:'bmi ',
-                fontSize:25
+                fontSize:25,
+                fontColor:'white'
+
             },
             legend:{
                 display:true,
                 position:"bottom",
                 labels:{
-                    fontColor:'#000'
+                    fontColor:'white'
                 }
             },
             layout:{
@@ -607,6 +615,7 @@ async function scatter_plot_graph(labels, values_and_label){
             scales: {
                 yAxes: [{
                     ticks: {
+                        fontColor:"white",
                         callback: function(value, index, values) {
                             return  value +'€';
                         },
@@ -614,6 +623,7 @@ async function scatter_plot_graph(labels, values_and_label){
                     },
                     //display:true,
                     scaleLabel: {
+                        fontColor:"white",
                         display: true,
                         labelString: 'Average Wage'
                     }
@@ -622,6 +632,7 @@ async function scatter_plot_graph(labels, values_and_label){
                     position: "bottom",
                     type:"linear",
                     ticks: {
+                        fontColor:"white",
                         beginAtZero: true,
                         callback: function(value, index, values) {
                             return  value +'%';
@@ -630,6 +641,7 @@ async function scatter_plot_graph(labels, values_and_label){
 
                     },
                     scaleLabel: {
+                        fontColor:"white",
                         display: true,
                         labelString: 'BMI percentage'
                     }
@@ -752,13 +764,14 @@ async function line_chart_graph(labels, values_and_label){
             title:{
                 display:true,
                 text:'bmi ',
-                fontSize:25
+                fontSize:25,
+                fontColor:'white'
             },
             legend:{
                 display:true,
                 position:"bottom",
                 labels:{
-                    fontColor:'#000'
+                    fontColor:'white'
                 }
             },
             layout:{
