@@ -129,7 +129,6 @@ function get_label(countries_dict){
 function startup(bmi_data){
     const generated_data_female =  finddatawithtag(bmi_data, countries_in_data, ["TOTAL"], ["TOTAL"], ["18.5-25"], "F");
     const generated_data_male =  finddatawithtag(bmi_data, countries_in_data, ["TOTAL"], ["TOTAL"], ["18.5-25"], "M");
-    bar_graph(countries_in_data, generated_data_female.concat(generated_data_male), false)
     scatter_plot_graph(countries_in_data,generated_data_female.concat(generated_data_male))
 }
 
@@ -373,125 +372,6 @@ function test_if_metadata_pass_for_a_country(bmi_dict, age, quantile, bmi, sex, 
 
 //this created the graph with graph js.
 
-let myChart = document.getElementById('myChart').getContext('2d');
-let bar_chart = []
-
-async function bar_graph(labels, values_and_label){
-    //console.log(values_and_label)
-    //this is because you have to delete former graph, or you will not be able assign it to the same canvas. .
-    if(bar_chart.length === 1){
-        bar_chart[0].destroy()
-        bar_chart.pop()
-    }
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = "#FFFFFF";
-    console.log(Chart.defaults.global)
-
-    let datasets = []
-    var bar_ctx = document.getElementById("myChart").getContext("2d");
-
-    var background_1 = bar_ctx.createLinearGradient(0, 0, 0, 600);
-    background_1.addColorStop(0, "rgba(34,193,195,1)");
-    background_1.addColorStop(1, "rgba(253,187,45,1)");
-
-    var background_2 = bar_ctx.createLinearGradient(0, 0, 0, 600);
-    background_2.addColorStop(0, "rgba(131,58,180,1)");
-    background_2.addColorStop(1, "rgba(252,176,69,1)");
-
-    //the array length is equal to how many different label there is. if a countries has two values, then it because dataset has been pushed twice.
-    for (let i = 0; i < values_and_label.length; i++ ){
-        let randomColor = Math.floor(Math.random()*16777215).toString(16);
-        let label = values_and_label[i]["label"];
-        let value =  values_and_label[i]["value"]
-        let new_label = get_label(label)
-
-        let backgroundcolor = ""
-        switch(label["sex"]){
-    
-            case "F":
-                backgroundcolor = "#DB3069"
-                break;
-            case "M":
-                backgroundcolor = "#39da7c"
-                break;
-            default:
-                backgroundcolor =  "#" + randomColor
-        }
-        datasets.push({
-            label: new_label,
-            data: value,
-            backgroundColor: backgroundcolor,
-            borderWidth:1,
-            borderColor:'#777',
-            hoverBorderWidth:3,
-            hoverBorderColor:'#000'
-        })
-    }
-
-
-    let massPopChart = new Chart(myChart, {
-        type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-        data:{
-            labels:labels,
-            datasets:datasets
-        },
-
-        options:{
-            title:{
-                display:true,
-                text:'BMI of 18 European Countries (2008)',
-                fontSize:25,
-                fontColor:'white'
-            },
-            legend:{
-                display:true,
-                position:"bottom",
-                labels:{
-                    fontColor:'white'
-                }
-            },
-            layout:{
-                padding:{
-                    left:50,
-                    right:0,
-                    bottom:0,
-                    top:0
-                }
-            },
-            tooltips:{
-                enabled:true
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        fontColor:"white",
-                        beginAtZero: true,
-                        callback: function(value, index, values) {
-                            return  value +'%';
-                        },
-
-                    },
-                    scaleLabel: {
-                        fontColor:"white",
-                        display: true,
-                        labelString: 'BMI percentage'
-                    },
-                    display:true
-
-                }],
-                xAxes: [{
-                    ticks: {
-                        fontColor:"white",
-                        autoSkip: false
-                    }
-                }]
-            }
-        }
-
-    });
-    bar_chart.push(massPopChart)
-}
 
 async function create_scatter_plot(e){
     e.preventDefault()
@@ -589,10 +469,10 @@ async function scatter_plot_graph(labels, values_and_label){
         let new_value = change_value_into_scatter_value(value)
         switch(label["sex"]){
             case "F":
-                backgroundcolor = "#FF1B1C"
+                backgroundcolor = "#DB3069"
                 break;
             case "M":
-                backgroundcolor = "white"
+                backgroundcolor = "#39da7c"
                 break;
             default:
                 backgroundcolor =  "#" + randomColor
@@ -620,7 +500,7 @@ async function scatter_plot_graph(labels, values_and_label){
         options:{
             title:{
                 display:true,
-                text:'Correlation of Average wage and BMI',
+                text:'Correlation of Average wage and BMI (2008)',
                 fontSize:25,
                 fontColor:'white'
 

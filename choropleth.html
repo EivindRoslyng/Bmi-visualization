@@ -11,12 +11,47 @@
     integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="css/choropleth.css">
 
-  <title>My Chart.js Chart</title>
+  <title>Choropleth of BMI</title>
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #171d1c; border-bottom: #39da7c 1px solid;">
+    <a class="navbar-brand" href="#"><img class="d-inline-block align-top" src="./img/logo.png" alt=""></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="./index.html">Bar Chart <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Datasets
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" target="_blank"
+                      href="https://mcas-proxyweb.mcas.ms/certificate-checker?login=false&originalUrl=https%3A%2F%2Fdata.europa.eu.mcas.ms%2Feuodp%2Fen%2Fdata%2Fdataset%2F1KNEJIFSG7jHcPFDk61Vcg">Body
+                      Mass Index (BMI)</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" target="_blank"
+                      href="https://en.wikipedia.org/wiki/List_of_European_countries_by_average_wage">Average wage
+                  </a>
+              </div>
+          </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./scatter-plot.html">Scatter Plot</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="./choropleth.html">Choropleth</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-  <div id="choropleth-block" class="container mw-100">
+  <div id="choropleth-block" class="container-fluid">
     <div id="carouselExampleControls" class="carousel slide">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -38,11 +73,15 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+    <div class="container" id="canvas" style="display: none; width: 800px; height: 400px;">
+      <canvas id="linegraph"></canvas>
+    </div>
+    <footer class="footer mt-auto ml-4 pt-2">
+      <span class="text-muted pb-3">Made with &#128157; by Shihab and Eivind &#128578;</span>
+  </footer>
   </div>
 
-  <div class="container" id="canvas" style="width: 800px; height: 400px;">
-    <canvas id="linegraph"></canvas>
-  </div>
+  
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
@@ -51,6 +90,20 @@
     crossorigin="anonymous"></script>
 
 </body>
+<script>
+  var onResize = function () {
+            // apply dynamic padding at the top of the body according to the fixed navbar height
+            $("body").css("padding-top", $(".navbar").height() + 40);
+        };
+
+        // attach the function to the window resize event
+        $(window).resize(onResize);
+
+        // call it also when the page is ready after load or reload
+        $(function () {
+            onResize();
+        });
+</script>
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script  src="js/choropleth.js"></script>
 

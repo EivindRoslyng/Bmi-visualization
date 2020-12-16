@@ -12,7 +12,7 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="css/index.css">
-    <title>BMI Dataset Visualization</title>
+    <title>Average wage VS BMI</title>
 </head>
 
 <body>
@@ -23,12 +23,12 @@
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto ml-5 pl-5">
-                <li class="nav-item active">
+        <div class="collapse navbar-collapse float-right" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
                     <a class="nav-link" href="./index.html">Bar Chart <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="./scatter-plot.html">Scatter Plot</a>
                 </li>
                 <li class="nav-item">
@@ -54,74 +54,6 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3 align-self-center">
-                <div class="card mb-5 mr-5 text-center" style="width: 17rem; background-color: #161c1b; border: 0px;">
-                    <div class="card-body text-white">
-                        <form>
-                            <h5 class="card-title text-center"></h5>
-
-                            <select id="bar_gender" class="selectpicker" data-style="btn-dark">
-                                <option value="T" selected>Both Gender</option>
-                                <option value="F">Female</option>
-                                <option value="M">Male</option>
-                            </select>
-                            <select id="bar_bmi" class="selectpicker" data-style="btn-dark" multiple>
-                                <option value="LT18.5">BMI: Less than 18</option>
-                                <option value="18.5-25" selected>BMI: 18-25</option>
-                                <option value="25-30">BMI: 25-30</option>
-                                <option value="GE30">BMI: More than 30</option>
-                            </select>
-                            <select id="bar_country" class="selectpicker" data-style="btn-dark" multiple>
-                                <option value="TOTAL" selected>All countries</option>
-                                <option value="Austria">Austria</option>
-                                <option value="Belgium">Belgium</option>
-                                <option value="Bulgaria">Bulgaria</option>
-                                <option value="Cyprus">Cyprus</option>
-                                <option value="Czechia">Czechia</option>
-                                <option value="Estonia">Estonia</option>
-                                <option value="France">France</option>
-                                <option value="Germany">Germany</option>
-                                <option value="Ireland">Ireland</option>
-                                <option value="Latvia">Latvia</option>
-                                <option value="Luxembourg">Luxembourg</option>
-                                <option value="Malta">Malta</option>
-                                <option value="Poland">Poland</option>
-                                <option value="Romania">Romania</option>
-                                <option value="Spain">Spain</option>
-                                <option value="Slovakia">Slovakia</option>
-                                <option value="Slovenia">Slovenia</option>
-                                <option value="Spain">Spain</option>
-                                <option value="Turkey">Turkey</option>
-                            </select>
-                            <select id="bar_age" class="selectpicker" data-style="btn-dark" multiple>
-                                <option value="TOTAL" selected>All ages</option>
-                                <option value="Y18-44"> 18-44 </option>
-                                <option value="Y45-54"> 45-54 </option>
-                                <option value="Y55-64"> 55-64 </option>
-                                <option value="Y65-74"> 65-74 </option>
-                                <option value="Y_GE75"> older than 75 </option>
-                            </select>
-                            <select id="bar_quantile" class="selectpicker" data-style="btn-dark" multiple>
-                                <option value="TOTAL" selected>All income quantiles</option>
-                                <option value="QU1"> Q1 </option>
-                                <option value="QU2"> Q2 </option>
-                                <option value="QU3"> Q3 </option>
-                                <option value="QU4"> Q4 </option>
-                                <option value="QU5"> Q5 </option>
-                            </select>
-
-                            <button type="submit" class="btn btn-grad mt-5" onclick="create_bar_chart(event)"
-                                style="margin:0 auto; white-space: nowrap;">CREATE BAR CHART</button>
-                        </form>
-
-
-                    </div>
-                </div>
-            </div>
-            <canvas class="col-md-9 float-right pr-5" id="myChart"></canvas>
-
-        </div>
-        <div class="row" style="display: none;">
             <div class="col-3 align-self-center">
                 <div class="card mb-5 mr-5 text-center" style="width: 17rem; background-color: #161c1b; border: 0px;">
                     <div class="card-body text-white">
@@ -233,7 +165,7 @@ crossorigin="anonymous"></script>
 
 </body>
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-<script  src="js/index.js"></script>
+<script  src="js/scatter-plot.js"></script>
 
 
 <!-- Latest compiled and minified JavaScript -->

@@ -1,16 +1,25 @@
-/*
-*
-* ==========================================
-* FOR DEMO PURPOSE
-* ==========================================
-*
-*/
-.container{
-    max-width: 1000px;
-    max-height: 500px;
+body {
+  background-color: #161c1b;
 }
 
-body{
-    background-color: black;
-}
+
+.btn-grad {background-image: linear-gradient(to right, #34e89e 0%, #0f3443  51%, #34e89e  100%)}
+.btn-grad {
+   margin: 10px;
+   padding: 5px 25px;
+   text-align: center;
+   text-transform: uppercase;
+   transition: 0.5s;
+   background-size: 200% auto;
+   color: white;            
+   box-shadow: 0 0 10px #eee;
+   border-radius: none;
+   display: block;
+ }
+
+ .btn-grad:hover {
+   background-position: right center; /* change the direction of the change here */
+   color: #fff;
+   text-decoration: none;
+ }
 

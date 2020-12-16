@@ -145,7 +145,7 @@ Plotly.d3.csv("bmi-choropleth-underweight.csv", function (err, rows) {
     xaxis : {fixedrange: true},
     autosize: false,
     width: 1100,
-    height: 800,
+    height: 720,
     paper_bgcolor: "#171d1c",
     plot_bgcolor: "#171d1c",
     geo: {
@@ -667,7 +667,7 @@ async function line_chart_graph(labels, values_and_label){
     options: {
       title:{
         display:true,
-        text:'bmi ',
+        text:'BMI per age group',
         fontSize:25,
         fontColor: "white"
       },
