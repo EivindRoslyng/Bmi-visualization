@@ -1,10 +1,10 @@
 //Data cleaning process:
 /*
-Modify dataset to contain percentage of underweight population of respective European countries
-Clean each row excluding bmi,sex,age,quantile
-convert each row to array of float
-replace all the NaN values to zero
-sum each indices of each row value and take average of it
+1. Modify dataset to contain percentage of underweight population of respective European countries
+2. Clean each row excluding bmi,sex,age,quantile
+3. Convert each row to array of float
+4. Normalize data by replacing all the NaN values to zero
+5. sum each indices of each row value and take average of it
 */
 let bmi_data_file = "bmi-dataset-2008.csv";
 let countries_chosen_to_be_vis_obese = []
@@ -667,7 +667,7 @@ async function line_chart_graph(labels, values_and_label){
     options: {
       title:{
         display:true,
-        text:'BMI per age group',
+        text:'Population per Age with Related BMI',
         fontSize:25,
         fontColor: "white"
       },
@@ -701,7 +701,7 @@ async function line_chart_graph(labels, values_and_label){
           scaleLabel: {
             fontColor: "white",
             display: true,
-            labelString: 'BMI percentage'
+            labelString: 'Population'
           }
         }],
         xAxes: [{
