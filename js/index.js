@@ -440,7 +440,7 @@ async function bar_graph(labels, values_and_label){
         options:{
             title:{
                 display:true,
-                text:'BMI of 18 European Countries (2008)',
+                text:'BMI of Population in 18 European Countries (2008)',
                 fontSize:25,
                 fontColor:'white'
             },
@@ -475,7 +475,7 @@ async function bar_graph(labels, values_and_label){
                     scaleLabel: {
                         fontColor:"white",
                         display: true,
-                        labelString: 'BMI percentage'
+                        labelString: 'Population'
                     },
                     display:true
 

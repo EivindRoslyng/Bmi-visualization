@@ -500,7 +500,7 @@ async function scatter_plot_graph(labels, values_and_label){
         options:{
             title:{
                 display:true,
-                text:'Correlation of Average wage and BMI (2008)',
+                text:'Correlation of Average wage and BMI in Population (2008)',
                 fontSize:25,
                 fontColor:'white'
 
@@ -554,7 +554,7 @@ async function scatter_plot_graph(labels, values_and_label){
                     scaleLabel: {
                         fontColor:"white",
                         display: true,
-                        labelString: 'Population Percentage(%)'
+                        labelString: 'Population'
                     }
                 }]
             }
